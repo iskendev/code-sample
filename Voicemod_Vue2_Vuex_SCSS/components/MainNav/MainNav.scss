@@ -1,0 +1,357 @@
+.main-nav {
+    @include itemMenuCollapse;
+    $mainnav: &;
+
+    height: 100%;
+    padding: 1vh px2rem(16) 0;
+
+    background: $c-grey-800;
+
+    // - that rules must be in element.scss
+    ul,
+    li {
+        list-style: none;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    button {
+        outline: none;
+        border: none;
+        background: none;
+    }
+
+    .base-icon {
+        align-items: center;
+    }
+
+    &__update {
+        display: flex;
+        align-items: center;
+        @include text--size-xxsmall;
+        margin-top: 25px;
+        cursor: pointer;
+
+        > span {
+            margin-left: 10px;
+            text-transform: uppercase;
+            color: $c-primary;
+            white-space: nowrap;
+        }
+    }
+
+    &__main-menu {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+        width: 100%;
+
+        transition: width ease-out 200ms;
+
+        .router-link-exact-active {
+            color: $c-primary;
+
+            /deep/ {
+                .base-icon {
+                    svg {
+                        fill: $c-primary;
+                    }
+                }
+            }
+
+            // TODO: double-check if needed
+            .menu-element__button-menu {
+                .button-menu__text {
+                    color: $c-primary;
+                }
+            }
+        }
+    }
+
+    &__loader {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        opacity: 1;
+    }
+
+    &__item {
+        @include text--size-xxsmall;
+        display: flex;
+        position: relative;
+        min-height: px2rem($base * 8);
+
+        align-items: center;
+        color: $c-grey-700;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &--is-last {
+            margin: auto 0 5vh !important;
+        }
+
+        &--preventDefault {
+            cursor: wait;
+            pointer-events: none;
+            opacity: 0.2;
+        }
+
+        &:hover {
+
+            >a:not(.router-link-exact-active),
+            >a:not(.router-link-active),
+            .main-nav__account {
+                color: rgba($c-white, 1);
+            }
+        }
+
+        a {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            color: rgba($c-white, .8);
+
+            transition: color .6s $a-ease-out;
+
+            &.route--is-exact-active {
+                color: $c-primary;
+
+                >* {
+                    &[class*="base-icon--is-"] {
+                        >svg {
+                            fill: $c-primary;
+                        }
+                    }
+                }
+
+                &:hover {
+                    color: $c-primary;
+                }
+            }
+
+            &.route--has-news {
+                &::after {
+                    position: absolute;
+                    top: 14;
+                    right: -8px;
+                    height: 7px;
+                    width: 7px;
+                    background-color: $c-pink;
+                    border-radius: 50%;
+                    content: '';
+                }
+            }
+        }
+
+        &--has-news {
+            &::after{
+                position: absolute;
+                top: 14;
+                right: -8px;
+                height: 7px;
+                width: 7px;
+                background-color: $c-pink;
+                border-radius: 50%;
+                content: '';
+            }
+        }
+
+        /deep/ {
+            .base-icon {
+                margin-right: 12px;
+
+                #{$mainnav}--is-collapsed & {
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        +#{$mainnav}__item {
+            margin-top: px2rem(15);
+        }
+    }
+
+    &__account-modal {
+        color: $c-white;
+        text-transform: none;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        margin-left: calc(1rem + 5px);
+        top: 0;
+        left: 65%;
+        z-index: 11;
+        background: $c-black-dark;
+        border-radius: 4px;
+        opacity: 0.9;
+        box-shadow: 0 0 7px 0 $c-black;
+
+        &:before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: $c-black-dark;
+            transform: rotate(45deg);
+            position: absolute;
+            top: 15px;
+            left: -5px;
+            z-index: 10;
+        }
+
+        .account-modal__element {
+            display: flex;
+            align-items: center;
+            border-radius: 4px;
+            white-space: nowrap;
+            padding: 10px 12px;
+            vertical-align: middle;
+            position: relative;
+            z-index: 11;
+            font-size: 14px;
+            line-height: 15px;
+            letter-spacing: 0;
+            @include text--bold;
+
+            &:hover {
+                color: rgba($c-white, 1);
+                background: $c-grey-900;
+            }
+
+            .base-icon {
+                margin: 0 0 0 10px;
+
+                svg path {
+                    fill: rgba($c-white, .8);
+                }
+            }
+
+            &--new{
+                margin-left: 8px;
+                padding: 3px 6px;
+                border-radius: 4px;
+                background-color: $c-pink;
+                color: $c-black;
+            }
+        }
+    }
+
+    &__label,
+    &__account {
+        display: flex;
+        @include text--size-xxsmall;
+        white-space: nowrap;
+    }
+
+    &__label {
+        flex-wrap: wrap;
+
+        span {
+            padding-right: 5px;
+        }
+    }
+
+    &__label {
+        flex-wrap: wrap;
+
+        span {
+            height: 12px;
+        }
+    }
+
+    &__store-text {
+        margin-right: 16px;
+    }
+
+    &__account {
+        align-items: center;
+        color: rgba($c-white, .8);
+
+        span {
+            line-height: 15px;
+        }
+
+        &-text {
+            white-space: normal;
+        }
+    }
+
+    &__collapse-action {
+        min-height: $base * 5px;
+        min-width: $base * 5px;
+        padding: px2rem($base * 5) 0;
+        position: relative;
+        width: 100%;
+
+        &:hover {
+
+            &:before,
+            &:after {
+                border: solid rgba($c-white, 1);
+                border-width: 0 2px 2px 0;
+            }
+        }
+
+        &:before,
+        &:after {
+            display: inline-block;
+            left: 50%;
+            position: absolute;
+            border: solid rgba($c-grey, .8);
+            padding: 5px;
+            pointer-events: none;
+            top: 50%;
+
+            border-width: 0 2px 2px 0;
+            content: '';
+
+            // transition: border .3s linear,
+            //     transform .3s $a-ease-out;
+        }
+
+        &:before {
+            transform: translateX(-50%) translateX($base * 1px) translateY(-50%) rotate(135deg);
+
+            #{$mainnav}--is-collapsed & {
+                transform: translateX(-50%) translateX(3px) translateY(-50%) rotate(-45deg)
+            }
+        }
+
+        &:after {
+            transform: translateX(-50%) translateX(($base * -1) * 1px) translateY(-50%) rotate(135deg);
+
+            #{$mainnav}--is-collapsed & {
+                transform: translateX(-50%) translateX(-3px) translateY(-50%) rotate(-45deg)
+            }
+        }
+    }
+
+    .is-PRO {
+        position: relative;
+
+        &:before {
+            @include text--size-xxsmall;
+            position: absolute;
+            top: -15px;
+
+            content: attr(data-pro);
+            color: $c-primary;
+        }
+    }
+
+    .base-button__label {
+        @include itemMenuCollapse;
+        font-size: 11px;
+        display: flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+        text-transform: uppercase;
+        justify-content: initial;
+    }
+
+    .base-icon.base-icon--is-normal.base-icon--is-light {
+        left: 0;
+    }
+}
